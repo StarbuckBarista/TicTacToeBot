@@ -1,3 +1,5 @@
+from os import system
+
 class Board:
     def __init__(self, position: list[list[int]]):
         self.position = position
@@ -19,3 +21,21 @@ class Board:
         if diagonal_two[0] == diagonal_two[1] == diagonal_two[2]: return diagonal_two[0]
 
         return 0
+
+    def addMarker(self, row: int, column: int, marker: int):
+        self.position[row][column] = marker
+
+if __name__ == "__main__":
+    board = Board([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+
+    while not board.checkWin():
+        system("clear")
+
+        for row in board.position:
+            print(row)
+
+        row = int(input("Row: "))
+        column = int(input("Column: "))
+        marker = int(input("Marker: "))
+
+        board.addMarker(row, column, marker)
