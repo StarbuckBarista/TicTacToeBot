@@ -22,6 +22,19 @@ class Board:
 
         return 0
 
+    def draw_board(self):
+        system("clear")
+        marker_coversions = {1: "X", -1: "O", 0: " "}
+
+        for row_number, row in enumerate(self.state):
+            markers = [marker_coversions[marker] for marker in row]
+
+            print("       |       |       ")
+            print(f"   {markers[0]}   |   {markers[1]}   |   {markers[2]}   ")
+            print("       |       |       ")
+
+            if (row_number !=2 ): print("-----------------------")
+
     def add_marker(self, row: int, column: int, marker: int):
         self.state[row][column] = marker
 
@@ -29,10 +42,7 @@ if __name__ == "__main__":
     board = Board([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
 
     while not board.check_win():
-        system("clear")
-
-        for row in board.state:
-            print(row)
+        board.draw_board()
 
         row = int(input("Row: "))
         column = int(input("Column: "))
