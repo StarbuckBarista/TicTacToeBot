@@ -6,7 +6,7 @@ class Board:
 
     def check_win(self):
         # Check Lines
-        for index in range(2):
+        for index in range(3):
             row = self.state[index]
             column = [row[index] for row in self.state]
 
@@ -48,7 +48,7 @@ class Computer:
 
         for row_number, row in enumerate(self.state):
             for column_number, marker in enumerate(row):
-                if marker is 0: possible_moves.append((row_number, column_number))
+                if marker == 0: possible_moves.append((row_number, column_number))
 
         return possible_moves
 
