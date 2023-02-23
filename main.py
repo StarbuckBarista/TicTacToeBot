@@ -62,13 +62,29 @@ class Computer:
 
         return score
 
+    def find_best_move(self, state: list[list[int]], turn: int):
+        best_move = None
+        best_score = None
+
+        for possible_move in self.find_possible_moves(state):
+            possible_state = deepcopy(state)
+            possible_state[possible_move[0]][possible_move[1]] = turn
+
+            possible_score = self.evaluate_state(possible_state, -turn)
+
+            if best_score is None or possible_score > best_score:
+                best_move = possible_move
+                best_score = possible_score
+
+        return best_move
+
 if __name__ == "__main__":
     board = Board([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
     computer = Computer()
 
     while not board.check_win():
         board.draw_board()
-        print(computer.evaluate_state(deepcopy(board.state), int(input("Turn: "))))
+        print(computer.find_best_move(deepcopy(board.state), int(input("Turn: "))))
 
         row = int(input("Row: "))
         column = int(input("Column: "))
