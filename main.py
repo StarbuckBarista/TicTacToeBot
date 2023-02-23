@@ -1,3 +1,4 @@
+from copy import deepcopy
 from os import system
 
 class Board:
@@ -39,26 +40,35 @@ class Board:
         self.state[row][column] = marker
 
 class Computer:
-    def update_state(self, state: list[list[int]]):
-        self.state = state
-
-    def find_possible_moves(self):
+    def find_possible_moves(self, state: list[list[int]]):
         # Stores Tuples as (Row, Column)
         possible_moves = []
 
-        for row_number, row in enumerate(self.state):
+        for row_number, row in enumerate(state):
             for column_number, marker in enumerate(row):
                 if marker == 0: possible_moves.append((row_number, column_number))
 
         return possible_moves
+
+    def evaluate_state(self, state: list[list[int]], turn: int):
+        score = 0
+
+        for possible_move in self.find_possible_moves(state):
+            dummy_board = Board(state)
+            dummy_board.add_marker(possible_move[0], possible_move[1], turn)
+
+            score -= dummy_board.check_win()
+            score += self.evaluate_state(dummy_board.state, -turn)
+
+        return score
 
 if __name__ == "__main__":
     board = Board([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
     computer = Computer()
 
     while not board.check_win():
-        computer.update_state(board.state)
         board.draw_board()
+        print(computer.evaluate_state(deepcopy(board.state), int(input("Turn: "))))
 
         row = int(input("Row: "))
         column = int(input("Column: "))
