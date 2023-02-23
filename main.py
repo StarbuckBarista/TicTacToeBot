@@ -38,10 +38,26 @@ class Board:
     def add_marker(self, row: int, column: int, marker: int):
         self.state[row][column] = marker
 
+class Computer:
+    def update_state(self, state: list[list[int]]):
+        self.state = state
+
+    def find_possible_moves(self):
+        # Stores Tuples as (Row, Column)
+        possible_moves = []
+
+        for row_number, row in enumerate(self.state):
+            for column_number, marker in enumerate(row):
+                if marker is 0: possible_moves.append((row_number, column_number))
+
+        return possible_moves
+
 if __name__ == "__main__":
     board = Board([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+    computer = Computer()
 
     while not board.check_win():
+        computer.update_state(board.state)
         board.draw_board()
 
         row = int(input("Row: "))
