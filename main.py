@@ -5,6 +5,15 @@ class Board:
     def __init__(self, position: list[list[int]]):
         self.state = position
 
+    def check_tie(self):
+        markers = []
+
+        for row in self.state:
+            for marker in row:
+                markers.append(marker)
+
+        return 0 not in markers
+
     def check_win(self):
         # Check Lines
         for index in range(3):
@@ -82,7 +91,7 @@ if __name__ == "__main__":
     board = Board([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
     computer = Computer()
 
-    while not board.check_win():
+    while not (board.check_tie() or board.check_win()):
         board.draw_board()
         print(computer.find_best_move(deepcopy(board.state), int(input("Turn: "))))
 
@@ -91,3 +100,7 @@ if __name__ == "__main__":
         marker = int(input("Marker: "))
 
         board.add_marker(row, column, marker)
+
+    board.draw_board()
+    print("                        ")
+    print("       GAME OVER!       ")
