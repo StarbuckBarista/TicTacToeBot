@@ -1,5 +1,7 @@
 from copy import deepcopy
 from os import system
+from random import random
+from time import sleep
 
 class Board:
     def __init__(self, position: list[list[int]]):
@@ -90,17 +92,25 @@ class Computer:
 if __name__ == "__main__":
     board = Board([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
     computer = Computer()
+    turn = 1
 
     while not (board.check_tie() or board.check_win()):
         board.draw_board()
-        print(computer.find_best_move(deepcopy(board.state), int(input("Turn: "))))
 
-        row = int(input("Row: "))
-        column = int(input("Column: "))
-        marker = int(input("Marker: "))
+        if turn == 1:
+            row = int(input("Row: "))
+            column = int(input("Column: "))
+        else: 
+            sleep(random() * 2)
+            row, column = computer.find_best_move(deepcopy(board.state), turn)
 
-        board.add_marker(row, column, marker)
+        board.add_marker(row, column, turn)
+        turn *= -1
 
     board.draw_board()
     print("                        ")
     print("       GAME OVER!       ")
+
+    if board.check_win() == 1: print("        YOU WIN!        ")
+    elif board.check_win() == -1: print("       YOU LOSE!        ")
+    else: print("          TIE!          ")
