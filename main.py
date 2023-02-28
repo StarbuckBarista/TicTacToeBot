@@ -59,6 +59,9 @@ class Board:
     def add_marker(self, row: int, column: int, marker: int):
         self.state[row][column] = marker
 
+    def validate_move(self, row: int, column: int):
+        return self.state[row][column] == 0
+
 class Computer:
     def find_possible_moves(self, state: list[list[int]]):
         # Stores Tuples as (Row, Column)
@@ -136,8 +139,14 @@ if __name__ == "__main__":
         board.draw_board()
 
         if turn == 1:
-            row = int(input("Row: "))
-            column = int(input("Column: "))
+            valid_input = False
+
+            while not valid_input:
+                row = int(input("Row: "))
+                column = int(input("Column: "))
+
+                valid_input = board.validate_move(row, column)
+                if not valid_input: print("Invalid Input!\n")
         else: 
             sleep(random() * 2)
             row, column = computer.find_best_move(deepcopy(board.state), turn)
