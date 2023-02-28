@@ -70,6 +70,20 @@ class Computer:
 
         return possible_moves
 
+    def check_quick_win(self, state: list[list[int]]):
+        quick_wins = []
+
+        for possible_move in self.find_possible_moves(state):
+            dummy_board = Board(state)
+            dummy_board.add_marker(possible_move[0], possible_move[1], -1)
+
+            if dummy_board.check_win() == -1: 
+                print(dummy_board.state)
+                quick_wins.append(possible_move)
+
+        if len(quick_wins) == 0: return None
+        return choice(quick_wins)
+
     def evaluate_state(self, state: list[list[int]], turn: int):
         score = 0
 
@@ -83,6 +97,8 @@ class Computer:
         return score
 
     def find_best_move(self, state: list[list[int]], turn: int):
+        if self.check_quick_win(state) is not None: return self.check_quick_win(state)
+
         best_moves = []
         best_score = None
 
