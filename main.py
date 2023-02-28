@@ -74,7 +74,7 @@ class Computer:
         quick_wins = []
 
         for possible_move in self.find_possible_moves(state):
-            dummy_board = Board(state)
+            dummy_board = Board(deepcopy(state))
             dummy_board.add_marker(possible_move[0], possible_move[1], -1)
 
             if dummy_board.check_win() == -1: 
@@ -88,7 +88,7 @@ class Computer:
         score = 0
 
         for possible_move in self.find_possible_moves(state):
-            dummy_board = Board(state)
+            dummy_board = Board(deepcopy(state))
             dummy_board.add_marker(possible_move[0], possible_move[1], turn)
 
             score -= (dummy_board.check_moves_left() + 1) * dummy_board.check_win()
