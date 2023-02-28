@@ -1,11 +1,20 @@
 from copy import deepcopy
 from os import system
-from random import random
+from random import choice, random
 from time import sleep
 
 class Board:
     def __init__(self, position: list[list[int]]):
         self.state = position
+
+    def check_moves_left(self):
+        markers = []
+
+        for row in self.state:
+            for marker in row:
+                markers.append(marker)
+
+        return markers.count(0)
 
     def check_tie(self):
         markers = []
@@ -68,13 +77,13 @@ class Computer:
             dummy_board = Board(state)
             dummy_board.add_marker(possible_move[0], possible_move[1], turn)
 
-            score -= dummy_board.check_win()
-            score += self.evaluate_state(dummy_board.state, -turn)
+            score -= (dummy_board.check_moves_left() + 1) * dummy_board.check_win()
+            if dummy_board.check_win() == 0: score += self.evaluate_state(dummy_board.state, -turn)
 
         return score
 
     def find_best_move(self, state: list[list[int]], turn: int):
-        best_move = None
+        best_moves = []
         best_score = None
 
         for possible_move in self.find_possible_moves(state):
@@ -84,10 +93,12 @@ class Computer:
             possible_score = self.evaluate_state(possible_state, -turn)
 
             if best_score is None or possible_score > best_score:
-                best_move = possible_move
+                best_moves = [possible_move]
                 best_score = possible_score
+            elif possible_score == best_score:
+                best_moves.append(possible_move)
 
-        return best_move
+        return choice(best_moves)
 
 if __name__ == "__main__":
     board = Board([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
