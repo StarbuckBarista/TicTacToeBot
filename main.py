@@ -60,7 +60,10 @@ class Board:
         self.state[row][column] = marker
 
     def validate_move(self, row: int, column: int):
-        return self.state[row][column] == 0
+        if row not in range(3) or column not in range(3): return False
+        if self.state[row][column] != 0: return False
+
+        return True
 
 class Computer:
     def find_possible_moves(self, state: list[list[int]]):
