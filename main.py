@@ -138,6 +138,25 @@ if __name__ == "__main__":
     computer = Computer()
     turn = 1
 
+    system("clear")
+
+    print("TIC    Column   Column  Column")
+    print("TAC       0       1       2   ")
+    print("TOE                           ")
+    print("              |       |       ")
+    print("Row 0         |       |       ")
+    print("              |       |       ")
+    print("       -----------------------")
+    print("              |       |       ")
+    print("Row 1         |       |       ")
+    print("              |       |       ")
+    print("       -----------------------")
+    print("              |       |       ")
+    print("Row 2         |       |       ")
+    print("              |       |       ")
+
+    input("\nPress Enter to Continue")
+
     while not (board.check_tie() or board.check_win()):
         board.draw_board()
 
